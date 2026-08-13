@@ -8,3 +8,5 @@ const topicPerformanceSchema = new mongoose.Schema({
   lastAttemptedAt: Date,
 });
 topicPerformanceSchema.index({ userId: 1, topicId: 1 }, { unique: true });
+
+module.exports = mongoose.model('TopicPerformance', topicPerformanceSchema);
