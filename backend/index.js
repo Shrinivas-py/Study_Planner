@@ -5,7 +5,9 @@ const cors = require('cors');
 const connectDB = require('./config/db');
 const app = express();
 connectDB();
-app.use(cors());
+app.use(cors({
+  origin: ['http://localhost:5173', 'https://study-planner-eta-sable.vercel.app/'],
+}));
 app.use(express.json());
 const authRoutes = require('./routes/authRoutes');
 app.use('/api/auth', authRoutes);
