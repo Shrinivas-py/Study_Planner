@@ -6,6 +6,7 @@ import Subjects from './pages/Subjects';
 import Assessment from './pages/Assessment';
 import Dashboard from './pages/Dashboard';
 import Practice from './pages/Practice';
+import Landing from './pages/Landing';
 
 function PrivateRoute({ children }) {
   const { user } = useAuth();
@@ -22,6 +23,7 @@ function AppRoutes() {
       <Route path="/assessment/:subjectId" element={<PrivateRoute><Assessment /></PrivateRoute>} />
       <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
       <Route path="/practice/:topicId" element={<PrivateRoute><Practice /></PrivateRoute>} />
+      <Route path="/" element={<Landing />} />
     </Routes>
   );
 }
