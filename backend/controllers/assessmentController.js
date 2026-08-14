@@ -70,7 +70,6 @@ exports.submitAssessment = async (req, res) => {
       perf.lastAttemptedAt = new Date();
       await perf.save();
     }
-
     assessment.score = (correctCount / answers.length) * 100;
     assessment.submittedAt = new Date();
     await assessment.save();

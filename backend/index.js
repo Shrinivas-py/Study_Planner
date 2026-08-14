@@ -13,6 +13,9 @@ app.use('/api/auth', authRoutes);
 const assessmentRoutes = require('./routes/assessmentRoutes');
 app.use('/api/assessments', assessmentRoutes);
 
+const roadmapRoutes = require('./routes/roadmapRoutes');
+app.use('/api/roadmap', roadmapRoutes);
+
 app.get('/api/health', (req,res)=>{
     res.json({status : 'ok'});
 });
