@@ -70,11 +70,45 @@ exports.submitAssessment = async (req, res) => {
       perf.lastAttemptedAt = new Date();
       await perf.save();
     }
-    assessment.score = (correctCount / answers.length) * 100;
+    assessment.score = Math.round((correctCount / answers.length) * 100);
     assessment.submittedAt = new Date();
     await assessment.save();
 
     res.json({ score: assessment.score, correctCount, total: answers.length });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+exports.startAssessment = async (req, res) => {
+  try {
+    const { subjectId, grade, topicId } = req.body;
+
+    let topicIds;
+    if (topicId) {
+      topicIds = [topicId];
+    } else {
+      const topics = await Topic.find({ subjectId });
+      topicIds = topics.map(t => t._id);
+    }
+
+    const questions = await Question.find({ topicId: { $in: topicIds } });
+
+    const assessment = await Assessment.create({
+      userId: req.userId,
+      subjectId,
+      grade,
+      startedAt: new Date(),
+    });
+
+    const questionsForClient = questions.map(q => ({
+      _id: q._id,
+      topicId: q.topicId,
+      text: q.text,
+      options: q.options,
+    }));
+
+    res.status(201).json({ assessmentId: assessment._id, questions: questionsForClient });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }

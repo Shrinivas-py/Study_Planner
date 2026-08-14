@@ -18,14 +18,24 @@ exports.getRoadmap = async (req, res) => {
 
     const roadmapTopics = generateRoadmap(performances, topicsMap);
 
-    let roadmap = await Roadmap.findOne({ userId: req.userId, subjectId });
-    if (!roadmap) {
-      roadmap = new Roadmap({ userId: req.userId, subjectId, topics: [] });
-    }
-    roadmap.topics = roadmapTopics;
-    await roadmap.save();
+let roadmap = await Roadmap.findOne({ userId: req.userId, subjectId });
+if (!roadmap) {
+  roadmap = new Roadmap({ userId: req.userId, subjectId, topics: [] });
+}
 
-    res.json({ roadmap: roadmapTopics });
+// Preserve existing status for topics that already have one
+const existingStatusMap = {};
+roadmap.topics.forEach(t => { existingStatusMap[t.topicId.toString()] = t.status; });
+
+roadmapTopics.forEach(t => {
+  const existingStatus = existingStatusMap[t.topicId.toString()];
+  if (existingStatus) t.status = existingStatus;
+});
+
+roadmap.topics = roadmapTopics;
+await roadmap.save();
+
+res.json({ roadmap: roadmapTopics });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
