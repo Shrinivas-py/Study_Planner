@@ -30,3 +30,22 @@ exports.getRoadmap = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
+
+
+exports.updateTopicStatus = async(req,res)=>{
+    try{
+        const {subjectId,topicId} = req.params;
+        const {status }  = req.body;
+        const roadmap = await Roadmap.findOne({userId: req.userId, subjectId});
+        if(!roadmap) return res.status(404).json({message : 'Roadmap not found'});
+        const topicEntry = roadmap.topics.find(t=>t.topicId.toString()===topicId);
+        if(!topicEntry) return res.status(404).json({message : 'Topic not found'});
+
+        topicEntry.status = status;
+        await roadmap.save();
+
+        res.json({roadmap :  roadmap.topics});
+    } catch(err){
+        res.status(500).json({message : err.message});
+    }
+};
