@@ -39,10 +39,10 @@ export default function Dashboard() {
     navigate('/login');
   };
 
-  const badgeStyle = {
-    weak: 'bg-clay-50 text-clay-600 border-clay-400/30',
-    moderate: 'bg-gold-50 text-gold-600 border-gold-400/30',
-    strong: 'bg-moss-50 text-moss-600 border-moss-400/30',
+  const badgeColor = {
+    weak: 'bg-red-50 text-red-700 border-red-200',
+    moderate: 'bg-amber-50 text-amber-700 border-amber-200',
+    strong: 'bg-green-50 text-green-700 border-green-200',
   };
 
   const activityLabel = {
@@ -58,41 +58,33 @@ export default function Dashboard() {
   const progressPct = roadmap.length ? Math.round((doneCount / roadmap.length) * 100) : 0;
 
   return (
-    <div className="min-h-screen bg-paper font-sans text-ink">
-      <nav className="bg-paper/90 backdrop-blur border-b border-ink/10 px-6 py-4 flex justify-between items-center sticky top-0 z-10">
-        <div className="flex items-center gap-2">
-          <div className="w-7 h-7 rounded-md bg-moss-500 flex items-center justify-center">
-            <span className="font-display text-white text-sm font-bold">S</span>
-          </div>
-          <span className="font-display text-lg font-semibold tracking-tight">StudyPath</span>
-        </div>
-        <div className="flex items-center gap-6">
-          <span className="text-sm text-ink-400 hidden sm:inline">Hi, {user?.name}</span>
-          <button onClick={() => navigate('/subjects')} className="text-sm text-moss-600 font-medium hover:text-moss-700">
+    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white">
+      <nav className="bg-white/80 backdrop-blur border-b border-slate-200 px-6 py-4 flex justify-between items-center sticky top-0 z-10">
+        <div className="text-xl font-bold text-brand-700">StudyPath</div>
+        <div className="flex items-center gap-5">
+          <span className="text-sm text-slate-600 hidden sm:inline">Hi, {user?.name}</span>
+          <button onClick={() => navigate('/subjects')} className="text-sm text-brand-600 font-medium hover:underline">
             Take an assessment
           </button>
-          <button onClick={handleLogout} className="text-sm text-ink-400 hover:text-ink-600">
+          <button onClick={handleLogout} className="text-sm text-slate-500 hover:text-slate-700">
             Log out
           </button>
         </div>
       </nav>
 
-      <div className="max-w-3xl mx-auto px-6 py-12">
-        <p className="text-xs font-semibold tracking-widest text-moss-600 uppercase mb-2">Dashboard</p>
-        <h1 className="font-display text-3xl font-semibold text-ink mb-1">
-          Welcome back{user?.name ? `, ${user.name.split(' ')[0]}` : ''}
-        </h1>
-        <p className="text-ink-400 mb-8">Here's where your learning path stands today.</p>
+      <div className="max-w-4xl mx-auto px-6 py-10">
+        <h1 className="text-2xl font-semibold text-slate-900 mb-1">Your dashboard</h1>
+        <p className="text-slate-500 mb-6">Track your mastery and follow your personalized roadmap.</p>
 
-        <div className="flex gap-2 mb-10 flex-wrap">
+        <div className="flex gap-2 mb-8">
           {subjects.map(s => (
             <button
               key={s._id}
               onClick={() => setSelectedSubject(s._id)}
               className={`px-4 py-1.5 rounded-full text-sm font-medium border transition-colors ${
                 selectedSubject === s._id
-                  ? 'bg-ink text-paper border-ink'
-                  : 'bg-white text-ink-600 border-ink/15 hover:border-ink/30'
+                  ? 'bg-brand-600 text-white border-brand-600'
+                  : 'bg-white text-slate-600 border-slate-200 hover:border-brand-300'
               }`}
             >
               {s.name}
@@ -103,84 +95,77 @@ export default function Dashboard() {
         {loading ? (
           <div className="space-y-3">
             {[1, 2, 3].map(i => (
-              <div key={i} className="bg-white border border-ink/10 rounded-2xl p-5 h-20 animate-pulse" />
+              <div key={i} className="bg-white border border-slate-200 rounded-xl p-5 h-20 animate-pulse" />
             ))}
           </div>
         ) : roadmap.length === 0 ? (
-          <div className="bg-white border border-ink/10 rounded-2xl p-12 text-center">
-            <p className="font-display text-lg font-semibold text-ink mb-1">No roadmap yet</p>
-            <p className="text-ink-400 mb-5">Take a short assessment and we'll map out exactly what to study next.</p>
+          <div className="bg-white border border-slate-200 rounded-xl p-10 text-center">
+            <p className="text-slate-600 mb-4">No assessment data yet for this subject.</p>
             <button
               onClick={() => navigate('/subjects')}
-              className="bg-moss-500 hover:bg-moss-600 text-white font-medium px-5 py-2.5 rounded-lg transition-colors"
+              className="bg-brand-600 hover:bg-brand-700 text-white font-medium px-5 py-2 rounded-lg"
             >
               Take an assessment
             </button>
           </div>
         ) : (
           <>
-            <div className="flex items-stretch bg-white border border-ink/10 rounded-2xl mb-10 overflow-hidden">
-              <div className="flex-1 px-6 py-5">
-                <p className="text-xs text-ink-400 mb-1">Overall progress</p>
-                <p className="font-display text-2xl font-semibold text-ink">{progressPct}%</p>
+            {/* Overview card */}
+            <div className="bg-gradient-to-r from-brand-600 to-brand-700 rounded-2xl p-6 mb-8 text-white flex items-center justify-between flex-wrap gap-6">
+              <div>
+                <p className="text-brand-100 text-sm mb-1">Overall progress</p>
+                <p className="text-3xl font-bold">{progressPct}% complete</p>
+                <p className="text-brand-100 text-sm mt-1">{doneCount} of {roadmap.length} topics done</p>
               </div>
-              <div className="w-px bg-ink/10" />
-              <div className="flex-1 px-6 py-5">
-                <p className="text-xs text-ink-400 mb-1">Topics done</p>
-                <p className="font-display text-2xl font-semibold text-ink">{doneCount}<span className="text-ink-400 text-base font-normal"> / {roadmap.length}</span></p>
-              </div>
-              <div className="w-px bg-ink/10" />
-              <div className="flex-1 px-6 py-5">
-                <p className="text-xs text-ink-400 mb-1">Avg. mastery</p>
-                <p className="font-display text-2xl font-semibold text-ink">{avgMastery}%</p>
+              <div className="flex gap-8">
+                <div>
+                  <p className="text-brand-100 text-xs mb-1">Avg. mastery</p>
+                  <p className="text-2xl font-semibold">{avgMastery}%</p>
+                </div>
+                <div>
+                  <p className="text-brand-100 text-xs mb-1">Topics tracked</p>
+                  <p className="text-2xl font-semibold">{roadmap.length}</p>
+                </div>
               </div>
             </div>
 
-            <h2 className="font-display text-lg font-semibold text-ink mb-1">Your learning path</h2>
-            <p className="text-sm text-ink-400 mb-6">Follow it in order — each step builds on the last.</p>
+            <h2 className="text-lg font-semibold text-slate-900 mb-4">Your roadmap</h2>
+            <div className="space-y-3">
+              {roadmap.map((t) => (
+                <div
+                  key={t.topicId}
+                  className="bg-white border border-slate-200 rounded-xl p-5 flex items-center gap-5 hover:shadow-sm transition-shadow"
+                >
+                  <MasteryRing score={t.masteryScore} />
 
-            <div className="relative">
-              <div className="absolute left-[25px] top-3 bottom-3 w-px bg-ink/10" aria-hidden="true" />
-              <div className="space-y-3">
-                {roadmap.map((t, i) => (
-                  <div key={t.topicId} className="relative flex items-center gap-5 pl-0">
-                    <div className="relative z-10 shrink-0 bg-paper">
-                      <MasteryRing score={t.masteryScore} />
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className={`text-xs font-medium px-2 py-0.5 rounded-full border ${badgeColor[t.classification]}`}>
+                        {t.classification}
+                      </span>
                     </div>
-
-                    <div className="flex-1 min-w-0 bg-white border border-ink/10 rounded-xl px-5 py-4 flex items-center gap-4 hover:border-ink/20 transition-colors">
-                      <span className="font-display text-xs text-ink-400/70 w-5 shrink-0">{String(i + 1).padStart(2, '0')}</span>
-
-                      <div className="flex-1 min-w-0">
-                        <div className="mb-1">
-                          <span className={`text-[11px] font-medium px-2 py-0.5 rounded-full border ${badgeStyle[t.classification]}`}>
-                            {t.classification}
-                          </span>
-                        </div>
-                        <button
-                          onClick={() => navigate(`/practice/${t.topicId}?subjectId=${selectedSubject}`)}
-                          className="text-sm text-ink font-medium hover:text-moss-600 transition-colors"
-                        >
-                          {activityLabel[t.activityType] || t.activityType} →
-                        </button>
-                      </div>
-
-                      {t.status === 'done' ? (
-                        <span className="text-sm text-moss-600 font-medium flex items-center gap-1 shrink-0">
-                          ✓ Done
-                        </span>
-                      ) : (
-                        <button
-                          onClick={() => markDone(t.topicId)}
-                          className="text-sm bg-paper hover:bg-ink/5 text-ink-600 font-medium px-4 py-1.5 rounded-lg shrink-0 border border-ink/10 transition-colors"
-                        >
-                          Mark as done
-                        </button>
-                      )}
-                    </div>
+                    <button
+  onClick={() => navigate(`/practice/${t.topicId}?subjectId=${selectedSubject}`)}
+  className="text-sm text-brand-600 font-medium hover:underline"
+>
+  {activityLabel[t.activityType] || t.activityType} →
+</button>
                   </div>
-                ))}
-              </div>
+
+                  {t.status === 'done' ? (
+                    <span className="text-sm text-green-600 font-medium flex items-center gap-1 shrink-0">
+                      ✓ Completed
+                    </span>
+                  ) : (
+                    <button
+                      onClick={() => markDone(t.topicId)}
+                      className="text-sm bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium px-4 py-1.5 rounded-lg shrink-0"
+                    >
+                      Mark as done
+                    </button>
+                  )}
+                </div>
+              ))}
             </div>
           </>
         )}
