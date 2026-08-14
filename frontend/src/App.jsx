@@ -4,6 +4,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Subjects from './pages/Subjects';
 import Assessment from './pages/Assessment';
+import Dashboard from './pages/Dashboard';
 
 function PrivateRoute({ children }) {
   const { user } = useAuth();
@@ -18,6 +19,7 @@ function AppRoutes() {
       <Route path="/subjects" element={<PrivateRoute><Subjects /></PrivateRoute>} />
       <Route path="*" element={<Navigate to="/login" />} />
       <Route path="/assessment/:subjectId" element={<PrivateRoute><Assessment /></PrivateRoute>} />
+      <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
     </Routes>
   );
 }
