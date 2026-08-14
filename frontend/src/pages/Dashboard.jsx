@@ -58,8 +58,8 @@ export default function Dashboard() {
   const progressPct = roadmap.length ? Math.round((doneCount / roadmap.length) * 100) : 0;
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white">
-      <nav className="bg-white/80 backdrop-blur border-b border-slate-200 px-6 py-4 flex justify-between items-center sticky top-0 z-10">
+    <div className="min-h-screen bg-gradient-to-b from-slate-50 via-brand-50/30 to-white">
+      <nav className="bg-white/70 backdrop-blur-md border-b border-slate-200/70 px-6 py-4 flex justify-between items-center sticky top-0 z-10">
         <div className="text-xl font-bold text-brand-700">StudyPath</div>
         <div className="flex items-center gap-5">
           <span className="text-sm text-slate-600 hidden sm:inline">Hi, {user?.name}</span>

@@ -84,7 +84,7 @@ export default function Assessment() {
   const allAnswered = questions.length > 0 && questions.every(q => answers[q._id] !== undefined);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white px-6 py-10">
+    <div className="min-h-screen bg-gradient-to-b from-slate-50 via-brand-50/30 to-white">
       <div className="max-w-2xl mx-auto">
         <div className="flex items-center justify-between mb-2">
           <h1 className="text-2xl font-semibold text-slate-900">Assessment</h1>

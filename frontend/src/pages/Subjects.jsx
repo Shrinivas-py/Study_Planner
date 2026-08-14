@@ -27,7 +27,7 @@ export default function Subjects() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white">
+    <div className="min-h-screen bg-gradient-to-b from-slate-50 via-brand-50/30 to-white">
       <nav className="bg-white/80 backdrop-blur border-b border-slate-200 px-6 py-4 flex justify-between items-center sticky top-0 z-10">
         <div className="flex items-center gap-2 text-xl font-bold text-brand-700">
           <div className="w-7 h-7 bg-brand-600 rounded-lg flex items-center justify-center text-white text-xs font-black">S</div>
